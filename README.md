@@ -1,39 +1,21 @@
-# NovaFlow Enterprise SaaS Dashboard
+# ShopMate - Premium E-commerce Storefront
 
-NovaFlow is a highly scalable, full-stack enterprise SaaS Admin Dashboard built with modern web technologies and clean architecture.
+A premium, pro-level e-commerce storefront built with Next.js App Router, Tailwind CSS, Framer Motion, and Zustand state management. Features a fully functional real-time shopping cart, a complete admin dashboard, and modern minimalist aesthetics.
+
+🔴 **[Click Here to View Live Project](https://novaflow-dashboard-one.vercel.app)**
+
+![ShopMate Storefront](https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1920)
 
 ## Tech Stack
-- **Framework**: Next.js 15 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS v4 + shadcn/ui
-- **Database**: PostgreSQL (Supabase) + Prisma ORM
-- **Authentication**: Custom JWT (jose for Edge) + HTTP-only cookies
-- **Charts**: Recharts
-- **Form Validation**: Zod + React Hook Form
+- **Framework:** Next.js 15 (App Router)
+- **Styling:** Tailwind CSS & Framer Motion
+- **State Management:** Zustand
+- **Database:** PostgreSQL (Supabase) + Prisma ORM
+- **Authentication:** Custom JWT edge authentication
 
 ## Features
-- **Clean Architecture**: Repositories, Services, and Controllers (API Routes).
-- **Role-Based Access Control (RBAC)**: Admin, Manager, User roles.
-- **Real-time Notifications**: Integrated with `sonner`.
-- **Advanced Data Grids**: Search, Pagination for Users and Products.
-- **Enterprise Security**: XSS Protection, CSP, Strict-Transport-Security, and Helmet equivalents.
-
-## Getting Started
-
-### Prerequisites
-- Node.js 18+
-- PostgreSQL database (Supabase recommended)
-
-### Installation
-1. Clone the repository.
-2. Run `npm install`.
-3. Configure your `.env` file with `DATABASE_URL`, `DIRECT_URL`, and `JWT_SECRET`.
-4. Run `npx prisma db push` to synchronize your database.
-5. Run `npm run dev` to start the development server at `http://localhost:3000`.
-
-## Deployment (Docker)
-This project is optimized for Docker using Next.js standalone mode.
-```bash
-docker build -t novaflow-dashboard .
-docker run -p 3000:3000 novaflow-dashboard
-```
+- Modern, responsive UI with smooth page transitions
+- Full-featured shopping cart (Add, Remove, Quantity, Total calculation)
+- Integrated Admin Dashboard for Product & Order management
+- Real-time product inventory syncing
+- SEO optimized and lightning-fast load times
