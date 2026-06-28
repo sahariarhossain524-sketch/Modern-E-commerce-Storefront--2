@@ -1,0 +1,61 @@
+name: NovaFlow CI/CD
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: novaflow_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js 20
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Generate Prisma Client
+      run: npx prisma generate
+      
+    - name: Run Type Check
+      run: npm run type-check
+      
+    - name: Run Linter
+      run: npm run lint
+      
+    - name: Run Unit Tests
+      run: npm run test --if-present
+      
+    - name: Build Next.js
+      run: npm run build
+      env:
+        DATABASE_URL: postgresql://postgres:password@localhost:5432/novaflow_test?schema=public
+        NEXTAUTH_SECRET: github_actions_secret_12345
+        NEXTAUTH_URL: http://localhost:3000

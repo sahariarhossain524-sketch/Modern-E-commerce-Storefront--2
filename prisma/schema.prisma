@@ -1,0 +1,247 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ==========================================
+// User Management & RBAC
+// ==========================================
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  passwordHash  String
+  name          String?
+  avatarUrl     String?
+  roleId        String
+  role          Role      @relation(fields: [roleId], references: [id])
+  isVerified    Boolean   @default(false)
+  isActive      Boolean   @default(true)
+  isDeleted     Boolean   @default(false)
+  
+  // Relations
+  sessions      Session[]
+  orders        Order[]
+  notifications Notification[]
+  auditLogs     AuditLog[]
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([email])
+  @@index([roleId])
+}
+
+model Role {
+  id          String       @id @default(uuid())
+  name        String       @unique // Admin, Manager, User
+  description String?
+  
+  // Relations
+  users       User[]
+  permissions RolePermission[]
+
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+model Permission {
+  id          String       @id @default(uuid())
+  action      String       @unique // e.g., 'create:product', 'read:user'
+  description String?
+  
+  // Relations
+  roles       RolePermission[]
+
+  createdAt   DateTime     @default(now())
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshToken String   @unique
+  userAgent    String?
+  ipAddress    String?
+  expiresAt    DateTime
+  
+  createdAt    DateTime @default(now())
+
+  @@index([userId])
+}
+
+// ==========================================
+// Product Management
+// ==========================================
+
+model Category {
+  id          String    @id @default(uuid())
+  name        String    @unique
+  slug        String    @unique
+  description String?
+  isDeleted   Boolean   @default(false)
+  
+  // Relations
+  products    Product[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id          String    @id @default(uuid())
+  categoryId  String
+  category    Category  @relation(fields: [categoryId], references: [id])
+  name        String
+  slug        String    @unique
+  description String
+  price       Decimal   @db.Decimal(10, 2)
+  inventory   Int       @default(0)
+  imageUrl    String?
+  status      ProductStatus @default(DRAFT)
+  tags        String[]  // Prisma supports scalar lists in PostgreSQL
+  isDeleted   Boolean   @default(false)
+  
+  // Relations
+  orderItems  OrderItem[]
+
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([categoryId])
+  @@index([slug])
+  @@index([status])
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+// ==========================================
+// Order Management
+// ==========================================
+
+model Order {
+  id            String      @id @default(uuid())
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  totalAmount   Decimal     @db.Decimal(10, 2)
+  status        OrderStatus @default(PENDING)
+  
+  // Relations
+  items         OrderItem[]
+  payment       Payment?
+
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+model OrderItem {
+  id        String   @id @default(uuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  quantity  Int
+  price     Decimal  @db.Decimal(10, 2) // Price at the time of purchase
+
+  @@index([orderId])
+  @@index([productId])
+}
+
+model Payment {
+  id             String        @id @default(uuid())
+  orderId        String        @unique
+  order          Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  stripeIntentId String?       @unique
+  amount         Decimal       @db.Decimal(10, 2)
+  status         PaymentStatus @default(PENDING)
+  method         String?
+
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  @@index([orderId])
+  @@index([stripeIntentId])
+  @@index([status])
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
+
+// ==========================================
+// Notifications & System
+// ==========================================
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  type      NotificationType @default(INFO)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+}
+
+enum NotificationType {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String   // e.g., 'Product', 'Order'
+  entityId  String
+  details   Json?
+  
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([entity, entityId])
+}
