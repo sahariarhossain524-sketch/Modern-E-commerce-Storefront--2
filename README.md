@@ -4,7 +4,7 @@ A premium, pro-level e-commerce storefront built with Next.js App Router, Tailwi
 
 🔴 **[Click Here to View Live Project](https://novaflow-dashboard-one.vercel.app)**
 
-![ShopMate Storefront](https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=1920)
+![ShopMate Storefront](https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&q=80&w=1920)
 
 ## Tech Stack
 - **Framework:** Next.js 15 (App Router)
