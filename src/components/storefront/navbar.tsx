@@ -34,7 +34,7 @@ export function Navbar() {
             <div className="flex-shrink-0">
               <Link href="/" className="flex items-center gap-2">
                 <ShoppingBag className="h-6 w-6 text-primary" />
-                <span className="text-xl font-extrabold tracking-tight">ShopMate</span>
+                <span className="text-xl font-extrabold tracking-tight">NovaFlow</span>
               </Link>
             </div>
 

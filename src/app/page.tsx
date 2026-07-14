@@ -206,9 +206,9 @@ export default async function Home() {
             <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-12">What Our Customers Say</h2>
             <Stagger className="grid md:grid-cols-3 gap-8">
             {[
-              { name: "John D.", text: "Amazing products and fast delivery! ShopMate is my go-to store for all my needs." },
-              { name: "Sarah M.", text: "Great quality at affordable prices. The customer support is also very responsive." },
-              { name: "Michael T.", text: "Very happy with my purchase. Highly recommend ShopMate to everyone!" }
+              { name: "John D.", text: "Amazing products and fast delivery! NovaFlow is my go-to store for all my needs." },
+              { name: "Sarah L.", text: "The quality of the clothes is fantastic. Will definitely buy again." },
+              { name: "Michael T.", text: "Very happy with my purchase. Highly recommend NovaFlow to everyone!" }
             ].map((review, i) => (
               <div key={i} className="bg-[#F8FAF8] rounded-2xl p-8 border border-green-50/50">
                 <div className="w-10 h-10 rounded-full bg-green-100 text-primary flex items-center justify-center mb-6">
