@@ -2,7 +2,6 @@
 
 > **NovaFlow** is a highly responsive internal operational dashboard tailored for visualizing key business metrics and managing fast-moving data streams. Built with a product-centric engineering philosophy, it treats internal teams as first-class customers by delivering an enterprise-grade UX.
 
-![NovaFlow Dashboard](https://via.placeholder.com/1200x600/020617/ffffff?text=NovaFlow+Internal+Dashboard)
 
 ## Engineering Philosophy
 
