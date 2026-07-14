@@ -1,10 +1,10 @@
-# NovaFlow (Internal Operations Dashboard) 📊⚙️
+# NovaFlow (Internal Operations Dashboard)
 
 > **NovaFlow** is a highly responsive internal operational dashboard tailored for visualizing key business metrics and managing fast-moving data streams. Built with a product-centric engineering philosophy, it treats internal teams as first-class customers by delivering an enterprise-grade UX.
 
 ![NovaFlow Dashboard](https://via.placeholder.com/1200x600/020617/ffffff?text=NovaFlow+Internal+Dashboard)
 
-## 🚀 Engineering Philosophy
+## Engineering Philosophy
 
 Internal tools often suffer from poor design and fragile codebases. NovaFlow reverses this trend by applying B2B SaaS engineering standards to internal operations.
 
@@ -12,7 +12,7 @@ Internal tools often suffer from poor design and fragile codebases. NovaFlow rev
 - **High-Performance Data Visualization**: Engineered to handle fast-moving, real-time data streams without UI blocking or unnecessary re-renders.
 - **Self-Service Capabilities**: Enables non-technical operational staff to complete complex workflows independently, drastically reducing engineering support tickets.
 
-## 🏗️ System Architecture & Tech Stack
+## System Architecture & Tech Stack
 
 - **Framework:** Next.js (App Router) 
 - **Styling & UI:** Tailwind CSS, Framer Motion (for fluid micro-interactions)
@@ -20,7 +20,7 @@ Internal tools often suffer from poor design and fragile codebases. NovaFlow rev
 - **Database Architecture:** PostgreSQL powered by Supabase with Prisma ORM
 - **API Design:** Strict, strongly-typed RESTful endpoints ensuring robust data integrity between client and server.
 
-## 🛠️ Setup & Installation
+## Setup & Installation
 
 1. Clone the repository
 2. Install dependencies: `npm install`
@@ -31,7 +31,7 @@ Internal tools often suffer from poor design and fragile codebases. NovaFlow rev
 4. Run Prisma migrations: `npx prisma db push`
 5. Start the development server: `npm run dev`
 
-## 👨‍💻 Developed By
+## Developed By
 
 **Sahariar Hossain**  
 *AI Product Engineer & Full-Stack Developer*  
